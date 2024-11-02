@@ -1,0 +1,36 @@
+package: base-distroless
+
+slices:
+  # Approx 1MB
+  static:
+    essential:
+      - base-files_base
+      - base-files_release-info
+      # NOTE: Ideally this would instead only represent root + non-root users like in Google Distroless?
+      - base-passwd_data
+      - libc-bin_nsswitch
+      - netbase_config
+      - ca-certificates_data
+      - tzdata_zoneinfo
+
+  # Approx 14MB
+  base-nossl:
+    essential:
+      - base-distroless_static
+      - libc6_libs
+      - libc6_gconv
+      - libc6_config
+
+  # Approx 20MB
+  base:
+    essential:
+      - base-distroless_base-nossl
+      - libssl3t64_libs
+
+  # Approx 24MB
+  cc:
+    essential:
+      - base-distroless_base
+      - libgomp1_libs
+      - libstdc++6_libs
+      - libgcc-s1_libs
